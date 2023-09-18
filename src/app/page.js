@@ -1,5 +1,9 @@
 "use client";
+
 import { useSession } from "next-auth/react";
+
+import ProjectList from "./project/page";
+import AddProject from "./addproject/page";
 
 export default function Home() {
   const session = useSession();
@@ -13,6 +17,10 @@ export default function Home() {
   }
 
   return (
-    <div className="text-3xl font-bold underline text-center">hello world</div>
+    <div className=" flex flex-col justify-center items-center">
+      <AddProject />
+
+      <ProjectList />
+    </div>
   );
 }
