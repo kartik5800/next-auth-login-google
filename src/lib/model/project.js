@@ -5,6 +5,7 @@ const projectModel = new mongoose.Schema({
   projectname: String,
   frontend: String,
   backend: String,
+  tasks: [{ type: mongoose.Schema.Types.ObjectId, ref: "TaskData" }],
 });
 
 export const ProjectData =

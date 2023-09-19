@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import mongoose from "mongoose";
-import bcrypt from "bcryptjs";
+// import bcrypt from "bcryptjs";
 import { connectionStr } from "@/lib/db";
 import { RagisterData } from "@/lib/model/register";
 
@@ -22,13 +22,20 @@ const handler = NextAuth({
           throw new Error("No user Found with Email Please Sign Up...!");
         }
 
-        const checkPassword = bcrypt.compareSync(
-          credentials.password,
-          result.password
-        );
+        // const checkPassword = bcrypt.compareSync(
+        //   credentials.password,
+        //   result.password
+        // );
 
-        // incorrect password
-        if (!checkPassword || result.email !== credentials.email) {
+        // // incorrect password
+        // if (!checkPassword || result.email !== credentials.email) {
+        //   throw new Error("Username or Password doesn't match");
+        // }
+
+        if (
+          result.password !== credentials.password ||
+          result.email !== credentials.email
+        ) {
           throw new Error("Username or Password doesn't match");
         }
 

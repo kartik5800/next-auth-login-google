@@ -47,7 +47,7 @@ const ProjectList = () => {
           </thead>
           <tbody>
             {projects?.map((project) => (
-              <tr key={project.id}>
+              <tr key={project._id}>
                 <Link href={`project/projectdetails/${project._id}`}>
                   <td className="border p-2">{project.projectname}</td>
                 </Link>
