@@ -1,4 +1,5 @@
 import { signOut, useSession } from "next-auth/react";
+import Link from "next/link";
 import { useState } from "react";
 
 const Navbar = () => {
@@ -18,7 +19,12 @@ const Navbar = () => {
       <div className="container flex justify-between items-center">
         <h1 className="text-2xl text-white font-semibold">My App</h1>
 
-        <ul className="flex space-x-4 items-center">
+        <ul className="flex space-x-4 items-center text-white">
+          <li>
+            <Link href="/">Projects</Link>
+          </li>
+          <li>Add Project</li>
+
           {session ? (
             <li className="relative group">
               <button
@@ -36,7 +42,7 @@ const Navbar = () => {
                   className="absolute right-0 mt-2 p-2 bg-white rounded shadow-lg"
                   onClick={closeDropdown}
                 >
-                  <p>{session.user.name}</p>
+                  <p className="text-black">{session.user.name}</p>
 
                   <hr className="my-2" />
                   <button
