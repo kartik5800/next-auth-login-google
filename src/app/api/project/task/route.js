@@ -1,7 +1,6 @@
 import { connectionStr } from "@/lib/db";
 import { ProjectData } from "@/lib/model/project";
 import { TaskData } from "@/lib/model/task";
-import { log } from "console";
 import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 import { parse } from "url";

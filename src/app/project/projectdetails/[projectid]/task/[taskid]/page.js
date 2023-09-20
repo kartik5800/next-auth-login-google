@@ -1,86 +1,38 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-// pages/task/[taskId].js
-
 import { useEffect, useState } from "react";
 
 function TaskDetailPage({ params }) {
-  const router = useRouter();
-  const { taskId } = params.taskid;
-  const [taskDetails, setTaskDetails] = useState([]);
-  const [assignedUser, setAssignedUser] = useState("");
-  const [status, setStatus] = useState("");
+  const [task, setTask] = useState([]);
+  const id = params.taskid;
 
   useEffect(() => {
-    const fetchTaskDetails = async () => {
-      if (!taskId) return;
+    getProject();
+  }, []);
 
-      try {
-        const response = await fetch(`/api/task/details/${taskId}`);
-        if (response.ok) {
-          const data = await response.json();
-          setTaskDetails(data.taskDetails);
-        } else {
-          console.error("Error fetching task details");
-        }
-      } catch (error) {
-        console.error("Error fetching task details:", error);
-      }
-    };
+  const getProject = async () => {
+    let data = await fetch(`http://localhost:3000/api/project/task/${id}`, {
+      cache: "no-store",
+    });
+    data = await data.json();
 
-    fetchTaskDetails();
-  }, [taskId]);
-
-  const handleUpdateTaskDetails = async () => {
-    try {
-      const response = await fetch(`/api/task/details/${taskId}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ assignedUser, status }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setTaskDetails([data.taskDetail]);
-      } else {
-        console.error("Error updating task details");
-      }
-    } catch (error) {
-      console.error("Error updating task details:", error);
+    if (data.success) {
+      setTask(data.task);
+    } else {
+      return { success: false };
     }
   };
 
   return (
     <div>
-      <h1>Task Details</h1>
-      <p>Task ID: {taskId}</p>
-      <input
-        type="text"
-        placeholder="Assigned User"
-        value={assignedUser}
-        onChange={(e) => setAssignedUser(e.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="Status"
-        value={status}
-        onChange={(e) => setStatus(e.target.value)}
-      />
-      <button onClick={handleUpdateTaskDetails}>Update Task Details</button>
+      <div>
+        <p className="text-4xl text-center">task details</p>
+        <p className="text-3xl">{task.taskName}</p>
+      </div>
 
-      <h2>Task Details:</h2>
-      <ul>
-        {taskDetails.map((taskDetail) => (
-          <li key={taskDetail._id}>
-            Assigned User: {taskDetail.assignedUser}
-            <br />
-            Status: {taskDetail.status}
-          </li>
-        ))}
-      </ul>
+      <div className="p-10">
+        <div></div>
+      </div>
     </div>
   );
 }

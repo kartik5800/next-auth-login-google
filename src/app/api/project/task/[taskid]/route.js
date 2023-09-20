@@ -58,12 +58,10 @@ export async function DELETE(request, content) {
       });
     }
 
-    // Remove the task from its associated project's tasks array
     const project = await ProjectData.findById(task.projectId);
     project.tasks.pull(taskid);
     await project.save();
 
-    // Delete the task
     await TaskData.deleteOne({ _id: taskid });
 
     mongoose.connection.close();
@@ -73,4 +71,11 @@ export async function DELETE(request, content) {
     console.error("Error deleting task:", error);
     return NextResponse.json({ result: "error", success: false });
   }
+}
+
+export async function GET(request, content) {
+  const { taskid } = content.params;
+  await mongoose.connect(connectionStr);
+  const task = await TaskData.findById({ _id: taskid });
+  return NextResponse.json({ task, success: true });
 }
