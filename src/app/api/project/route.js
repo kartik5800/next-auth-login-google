@@ -11,17 +11,13 @@ export async function GET() {
   } catch (error) {
     data = { success: false };
   }
-
   return NextResponse.json({ result: data, success: true });
 }
 
 export async function POST(request) {
   let payload = await request.json();
-
   await mongoose.connect(connectionStr);
   const project = new ProjectData(payload);
-
   const result = await project.save();
-
   return NextResponse.json({ result, success: true });
 }

@@ -1,14 +1,20 @@
+"use client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { v4 as uuid } from "uuid";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const AddProject = () => {
   const router = useRouter();
   const [projectData, setProjectData] = useState({
     id: uuid(),
-    projectname: "",
+    projectName: "",
     frontend: "",
     backend: "",
+    projectDescription: "",
+    startDate: null,
+    endDate: null,
   });
   const [errors, setErrors] = useState({});
 
@@ -20,9 +26,22 @@ const AddProject = () => {
     });
   };
 
+  const handleStartDateChange = (date) => {
+    setProjectData({
+      ...projectData,
+      startDate: date,
+    });
+  };
+
+  const handleEndDateChange = (date) => {
+    setProjectData({
+      ...projectData,
+      endDate: date,
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("projectData", projectData);
     const newErrors = {};
 
     if (Object.keys(newErrors).length === 0) {
@@ -34,11 +53,14 @@ const AddProject = () => {
       });
 
       if (result.ok) {
-        alert("add project sucessfully");
+        alert("Add project successfully");
         setProjectData({
-          projectname: "",
+          projectName: "",
           frontend: "",
           backend: "",
+          projectDescription: "",
+          startDate: null,
+          endDate: null,
         });
         router.push("http://localhost:3000");
       }
@@ -48,30 +70,32 @@ const AddProject = () => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col justify-center items-center">
       <div className="text-3xl font-bold underline text-center">
-        Add project
+        Add Project
       </div>
-      <div className=" flex-col justify-center items-center">
-        <form className="p-4 flex-col justify-center items-center">
-          <div className="mb-4">
+
+      <form className="p-4 flex-col justify-center items-center">
+        <div className="mb-4">
+          <label
+            htmlFor="projectName"
+            className="block text-gray-600 font-semibold"
+          >
+            Project Name
+          </label>
+          <input
+            type="text"
+            name="projectName"
+            className="border rounded-md p-2 w-full"
+            value={projectData.projectName}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="flex gap-4 col-auto">
+          <div className="mb-4 w-full">
             <label
-              htmlFor="projectName"
-              className="block text-gray-600 font-semibold"
-            >
-              Project Name
-            </label>
-            <input
-              type="text"
-              name="projectname"
-              className="border rounded-md p-2 w-full"
-              value={projectData.projectname}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="projectName"
+              htmlFor="backend"
               className="block text-gray-600 font-semibold"
             >
               Back-end
@@ -84,9 +108,9 @@ const AddProject = () => {
               onChange={handleChange}
             />
           </div>
-          <div className="mb-4">
+          <div className="mb-4 w-full">
             <label
-              htmlFor="projectName"
+              htmlFor="frontend"
               className="block text-gray-600 font-semibold"
             >
               Front-end
@@ -99,17 +123,68 @@ const AddProject = () => {
               onChange={handleChange}
             />
           </div>
-          <div className="flex justify-end">
-            <button
-              type="submit"
-              className="bg-blue-500 text-white rounded p-2"
-              onClick={handleSubmit}
+        </div>
+
+        <div className="mb-4">
+          <label
+            htmlFor="projectDescription"
+            className="block text-gray-600 font-semibold"
+          >
+            Project Description
+          </label>
+          <textarea
+            name="projectDescription"
+            className="border rounded-md p-2 w-full"
+            value={projectData.projectDescription}
+            onChange={handleChange}
+            rows={5}
+          />
+        </div>
+
+        <div className="flex gap-4 col-auto">
+          <div className="mb-4 w-full">
+            <label
+              htmlFor="startDate"
+              className="block text-gray-600 font-semibold"
             >
-              Add Project
-            </button>
+              Start Date
+            </label>
+            <DatePicker
+              name="startDate"
+              selected={projectData.startDate}
+              onChange={handleStartDateChange}
+              className="border rounded-md p-2 w-full"
+              dateFormat="dd-MM-yyyy"
+            />
           </div>
-        </form>
-      </div>
+
+          <div className="mb-4 w-full">
+            <label
+              htmlFor="endDate"
+              className="block text-gray-600 font-semibold"
+            >
+              End Date
+            </label>
+            <DatePicker
+              name="endDate"
+              selected={projectData.endDate}
+              onChange={handleEndDateChange}
+              className="border rounded-md p-2 w-full"
+              dateFormat="dd-MM-yyyy"
+            />
+          </div>
+        </div>
+
+        <div className="flex justify-end">
+          <button
+            type="submit"
+            className="bg-blue-500 text-white rounded p-2"
+            onClick={handleSubmit}
+          >
+            Add Project
+          </button>
+        </div>
+      </form>
     </div>
   );
 };

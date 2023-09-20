@@ -7,6 +7,7 @@ import { connectionStr } from "@/lib/db";
 import { RagisterData } from "@/lib/model/register";
 
 const handler = NextAuth({
+  secret: process.env.AUTH_SECRET,
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
@@ -43,10 +44,9 @@ const handler = NextAuth({
       },
     }),
   ],
-  secret: "XH6bp/TkLvnUkQiPDEZNyHc0CV+VV5RL/n+HdVHoHN0=",
-  // session: {
-  //   strategy: "jwt",
-  // },
+  session: {
+    // strategy: "jwt",
+  },
 });
 
 export { handler as GET, handler as POST };

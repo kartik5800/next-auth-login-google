@@ -17,7 +17,7 @@ const DeleteButton = ({ id }) => {
     }
   };
 
-  return <AiFillDelete onClick={handleDelete} />;
+  return <AiFillDelete color="red" onClick={handleDelete} />;
 };
 
 export default DeleteButton;

@@ -1,6 +1,7 @@
 "use client";
 import AddTask from "@/components/AddTask";
 import TaskList from "@/components/TaskList";
+import moment from "moment";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -25,21 +26,44 @@ export default function SingleProject({ params }) {
     }
   };
 
-  const handleTaskAdded = (task) => {
-    console.log("task", task);
-  };
+  const handleTaskAdded = (task) => {};
 
   return (
     <div className="flex flex-col justify-center items-center">
-      <div>
+      <div className="bg-white w-3/4 p-3 m-4 rounded-lg">
         <h1 className="text-3xl font-bold underline text-center">
-          Project Details ................
+          {projectData.projectName}
         </h1>
-      </div>
-      <div className="p-4">
-        <p>Project Name: {projectData.projectname}</p>
-        <p>Front-end: {projectData.frontend}</p>
-        <p>Back-end: {projectData.backend}</p>
+
+        <div className="flex justify-between m-3">
+          <div className="flex gap-8 bg-slate-200 p-2 rounded-md">
+            <p>
+              <span className="font-bold">Front-end: </span>
+              {projectData.frontend ?? ""}
+            </p>
+            <p>|</p>
+            <p>
+              {" "}
+              <span className="font-bold">Back-end: </span>{" "}
+              {projectData.backend ?? ""}
+            </p>
+          </div>
+          <div className="flex gap-8 bg-slate-200 p-2 rounded-md">
+            <p>
+              <span className=" font-bold"> Start-Date: </span>
+              {moment(projectData.startDate).format("DD/MM/YYYY") ?? ""}
+            </p>
+            <p>|</p>
+            <p>
+              <span className=" font-bold">End-Date: </span>
+              {moment(projectData.endDate).format("DD/MM/YYYY") ?? ""}
+            </p>
+          </div>
+        </div>
+        <div className=" gap-8 bg-slate-200 p-2 rounded-md m-3">
+          <p className="font-bold">Description</p>
+          <p>{projectData.projectDescription ?? ""}</p>
+        </div>
       </div>
       <div>
         <AddTask

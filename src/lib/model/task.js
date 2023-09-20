@@ -8,6 +8,9 @@ const taskSchema = new mongoose.Schema({
   taskName: {
     type: String,
   },
+  taskId: {
+    type: Number,
+  },
 });
 
 export const TaskData =

@@ -1,6 +1,8 @@
 import Provider from "@/components/SessionProvider";
 import "./globals.css";
+import "@radix-ui/themes/styles.css";
 import { getServerSession } from "next-auth";
+import { Theme } from "@radix-ui/themes";
 
 export const metadata = {
   title: "Create Next App",
@@ -12,7 +14,9 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="w-full">
-        <Provider session={session}>{children}</Provider>
+        <Theme>
+          <Provider session={session}>{children}</Provider>
+        </Theme>
       </body>
     </html>
   );

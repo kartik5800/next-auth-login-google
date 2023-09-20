@@ -2,19 +2,21 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import Modal from "react-modal";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
-export default function SingleProject({ params }) {
-  const [projectData, setProjectData] = useState({});
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [updatedProjectData, setUpdatedProjectData] = useState({
-    projectname: "",
-    frontend: "",
-    backend: "",
-  });
-
+export default function UpdateProject({ params }) {
   const router = useRouter();
   const ID = params.projectid;
+
+  const [updatedProjectData, setUpdatedProjectData] = useState({
+    projectName: "",
+    frontend: "",
+    backend: "",
+    projectDescription: "",
+    startDate: null,
+    endDate: null,
+  });
 
   useEffect(() => {
     getProjectData();
@@ -25,20 +27,18 @@ export default function SingleProject({ params }) {
       const response = await fetch(`http://localhost:3000/api/project/${ID}`);
       if (response.ok) {
         const data = await response.json();
-        setProjectData(data.result);
+        setUpdatedProjectData({
+          projectName: data.result.projectName,
+          frontend: data.result.frontend,
+          backend: data.result.backend,
+          projectDescription: data.result.projectDescription,
+          startDate: new Date(data.result.startDate),
+          endDate: new Date(data.result.endDate),
+        });
       }
     } catch (error) {
       console.error("Error fetching project:", error);
     }
-  };
-
-  const handleEditClick = () => {
-    setIsEditModalOpen(true);
-    setUpdatedProjectData({
-      projectname: projectData.projectname,
-      frontend: projectData.frontend,
-      backend: projectData.backend,
-    });
   };
 
   const handleUpdateProject = async () => {
@@ -53,8 +53,8 @@ export default function SingleProject({ params }) {
 
       if (response.ok) {
         alert("Project updated successfully");
-        setIsEditModalOpen(false);
         getProjectData();
+        router.push("/");
       } else {
         alert("Failed to update project");
       }
@@ -65,60 +65,33 @@ export default function SingleProject({ params }) {
 
   return (
     <div className="flex flex-col justify-center items-center">
-      <div>
-        <h1 className="text-3xl font-bold underline text-center">
-          Project Details
-        </h1>
-      </div>
-      <div className="p-4">
-        <p>Project Name: {projectData.projectname}</p>
-        <p>Front-end: {projectData.frontend}</p>
-        <p>Back-end: {projectData.backend}</p>
-      </div>
-      <div>
-        <button
-          onClick={handleEditClick}
-          className="bg-blue-500 text-white rounded p-2"
-        >
-          Edit Project
-        </button>
-        <Link href="/">
-          <button className="bg-gray-500 text-white rounded p-2 ml-2">
-            Back to Home
-          </button>
-        </Link>
+      <div className="text-3xl font-bold underline text-center">
+        Edit Project
       </div>
 
-      {/* Edit Project Modal */}
-      <Modal
-        isOpen={isEditModalOpen}
-        onRequestClose={() => setIsEditModalOpen(false)}
-        contentLabel="Edit Project Modal"
-        className="modal"
-        overlayClassName="modal-overlay"
-      >
-        <div className="text-2xl font-bold mb-4">Edit Project</div>
-        <form className="p-4">
-          <div className="mb-4">
-            <label
-              htmlFor="projectName"
-              className="block text-gray-600 font-semibold"
-            >
-              Project Name
-            </label>
-            <input
-              type="text"
-              name="projectname"
-              className="border rounded-md p-2 w-full"
-              value={updatedProjectData.projectname}
-              onChange={(e) =>
-                setUpdatedProjectData({
-                  ...updatedProjectData,
-                  projectname: e.target.value,
-                })
-              }
-            />
-          </div>
+      <form className="p-4">
+        <div className="mb-4">
+          <label
+            htmlFor="projectName"
+            className="block text-gray-600 font-semibold"
+          >
+            Project Name
+          </label>
+          <input
+            type="text"
+            name="projectName"
+            className="border rounded-md p-2 w-full"
+            value={updatedProjectData.projectName}
+            onChange={(e) =>
+              setUpdatedProjectData({
+                ...updatedProjectData,
+                projectName: e.target.value,
+              })
+            }
+          />
+        </div>
+
+        <div className="flex gap-4">
           <div className="mb-4">
             <label
               htmlFor="projectName"
@@ -139,6 +112,7 @@ export default function SingleProject({ params }) {
               }
             />
           </div>
+
           <div className="mb-4">
             <label
               htmlFor="projectName"
@@ -159,24 +133,91 @@ export default function SingleProject({ params }) {
               }
             />
           </div>
-          <div className="flex justify-end">
+        </div>
+
+        <div className="mb-4">
+          <label
+            htmlFor="projectDescription"
+            className="block text-gray-600 font-semibold"
+          >
+            Project Description
+          </label>
+          <textarea
+            name="projectDescription"
+            rows={5}
+            className="border rounded-md p-2 w-full"
+            value={updatedProjectData.projectDescription}
+            onChange={(e) =>
+              setUpdatedProjectData({
+                ...updatedProjectData,
+                projectDescription: e.target.value,
+              })
+            }
+          />
+        </div>
+
+        <div className="flex gap-4">
+          <div className="mb-4">
+            <label
+              htmlFor="startDate"
+              className="block text-gray-600 font-semibold"
+            >
+              Start Date
+            </label>
+            <DatePicker
+              name="startDate"
+              selected={updatedProjectData.startDate}
+              onChange={(date) =>
+                setUpdatedProjectData({
+                  ...updatedProjectData,
+                  startDate: date,
+                })
+              }
+              className="border rounded-md p-2 w-full"
+              dateFormat="dd-MM-yyyy"
+            />
+          </div>
+
+          <div className="mb-4">
+            <label
+              htmlFor="endDate"
+              className="block text-gray-600 font-semibold"
+            >
+              End Date
+            </label>
+            <DatePicker
+              name="endDate"
+              selected={updatedProjectData.endDate}
+              onChange={(date) =>
+                setUpdatedProjectData({
+                  ...updatedProjectData,
+                  endDate: date,
+                })
+              }
+              className="border rounded-md p-2 w-full"
+              dateFormat="dd-MM-yyyy"
+            />
+          </div>
+        </div>
+
+        <div className="flex justify-end">
+          <Link href={"/"}>
             <button
               type="button"
-              onClick={() => setIsEditModalOpen(false)}
               className="bg-red-500 text-white rounded p-2 mr-2"
             >
               Cancel
             </button>
-            <button
-              type="button"
-              onClick={handleUpdateProject}
-              className="bg-blue-500 text-white rounded p-2"
-            >
-              Update Project
-            </button>
-          </div>
-        </form>
-      </Modal>
+          </Link>
+          <button
+            type="button"
+            onClick={handleUpdateProject}
+            className="bg-blue-500 text-white rounded p-2"
+          >
+            Update Project
+          </button>
+        </div>
+      </form>
     </div>
   );
 }

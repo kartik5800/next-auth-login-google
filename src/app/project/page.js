@@ -20,7 +20,6 @@ const ProjectList = () => {
       cache: "no-store",
     });
     data = await data.json();
-    console.log(data);
     setProjects(data.result);
     if (data.success) {
       data.result;
@@ -34,6 +33,13 @@ const ProjectList = () => {
     <>
       <div className="p-6 w-full">
         <div className="mt-8">
+          <div className="flex justify-end p-2">
+            <Link href={"/addproject"}>
+              <button className="p-3  bg-slate-600 rounded-md border-none text-white">
+                Add project
+              </button>
+            </Link>
+          </div>
           <h3 className="text-4xl p-4 text-center font-bold bg-slate-400 w-full">
             Project
           </h3>
@@ -58,7 +64,7 @@ const ProjectList = () => {
                   <tr key={project._id} className="border border-slate-600">
                     <td className="border border-slate-600 px-4 py-2">
                       <Link href={`project/projectdetails/${project._id}`}>
-                        {project.projectname}
+                        {project.projectName}
                       </Link>
                     </td>
                     <td className="border border-slate-600 px-4 py-2">
@@ -67,11 +73,15 @@ const ProjectList = () => {
                     <td className="border border-slate-600 px-4 py-2">
                       {project.backend}
                     </td>
-                    <td className="border border-slate-600 px-4 py-2">
-                      <div className="flex gap-2">
-                        <DeleteButton id={project._id} />
+                    <td className="border border-slate-600 px-3">
+                      <div className="flex gap-2 ">
+                        <button className="p-2 bg-slate-300 px-5 rounded-md">
+                          <DeleteButton id={project._id} />
+                        </button>
                         <Link href={`/project/${project._id}`}>
-                          <AiFillEdit className="cursor-pointer" />
+                          <button className="p-2 bg-slate-300 px-5 rounded-md">
+                            <AiFillEdit className="cursor-pointer" />
+                          </button>
                         </Link>
                       </div>
                     </td>
