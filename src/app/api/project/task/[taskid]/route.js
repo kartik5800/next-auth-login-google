@@ -7,22 +7,46 @@ import { NextResponse } from "next/server";
 export async function PUT(request, content) {
   const { taskid } = content.params;
   const payload = await request.json();
-  await mongoose.connect(connectionStr);
-  let task = await TaskData.findById(taskid);
 
-  task = {
-    ...task,
-    ...payload,
-  };
+  try {
+    await mongoose.connect(connectionStr, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
 
-  const final = await task.save();
-  mongoose.connection.close();
+    const task = await TaskData.findById(taskid);
 
-  return NextResponse.json({
-    status: 200,
-    result: final,
-    success: true,
-  });
+    if (!task) {
+      return NextResponse.json({
+        status: 404,
+        result: "error",
+        error: "Task not found",
+      });
+    }
+
+    task.taskName = payload.taskName;
+    task.assignedUser = payload.assignedUser;
+    task.status = payload.status;
+
+    const updatedTask = await task.save();
+
+    mongoose.connection.close();
+
+    return NextResponse.json({
+      status: 200,
+      result: updatedTask,
+      success: true,
+    });
+  } catch (error) {
+    console.error("Error updating task:", error);
+    mongoose.connection.close();
+
+    return NextResponse.json({
+      status: 500,
+      result: "error",
+      error: error.message,
+    });
+  }
 }
 
 // export async function PUT(request, content) {
