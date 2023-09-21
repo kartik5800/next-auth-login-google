@@ -1,4 +1,4 @@
-// "use client";
+"use client";
 import DeleteButton from "@/components/DeleteButton";
 import Link from "next/link";
 import { useRouter } from "next/navigation";

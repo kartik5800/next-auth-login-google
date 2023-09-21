@@ -6,7 +6,6 @@ import Link from "next/link";
 
 function TaskList({ projectId }) {
   const [tasks, setTasks] = useState([]);
-
   const [editingTask, setEditingTask] = useState(null);
   const [editedTaskName, setEditedTaskName] = useState("");
   const [newTaskName, setNewTaskName] = useState("");
@@ -31,26 +30,6 @@ function TaskList({ projectId }) {
       }
     } catch (error) {
       console.error("Error fetching tasks:", error);
-    }
-  };
-
-  const handleDeleteTask = async (taskId) => {
-    try {
-      const response = await fetch(
-        `http://localhost:3000/api/project/task/${taskId}`,
-        {
-          method: "DELETE",
-        }
-      );
-
-      const data = await response.json();
-      if (data.success) {
-        fetchTasks();
-      } else {
-        console.error("Error deleting task:", data.error);
-      }
-    } catch (error) {
-      console.error("Error deleting task:", error);
     }
   };
 
@@ -195,13 +174,6 @@ function TaskList({ projectId }) {
                   className="bg-yellow-500 text-white rounded p-2"
                 >
                   Edit
-                </button>
-
-                <button
-                  onClick={() => handleDeleteTask(task._id)}
-                  className="bg-red-500 text-white rounded p-2 ml-2"
-                >
-                  Delete
                 </button>
               </div>
             )}

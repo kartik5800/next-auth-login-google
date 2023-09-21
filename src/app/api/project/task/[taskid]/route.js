@@ -5,42 +5,38 @@ import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 
 export async function PUT(request, content) {
-  try {
-    const { taskid } = content.params;
-    const payload = await request.json();
+  const { taskid } = content.params;
+  const payload = await request.json();
+  await mongoose.connect(connectionStr);
+  let task = await TaskData.findById(taskid);
 
-    await mongoose.connect(connectionStr);
+  task = {
+    ...task,
+    ...payload,
+  };
 
-    const task = await TaskData.findById(taskid);
+  const final = await task.save();
+  mongoose.connection.close();
 
-    if (!task) {
-      return NextResponse.json({
-        status: 404,
-        result: "error",
-        error: "Task not found",
-      });
-    }
-
-    task.taskName = payload.taskName;
-    await task.save();
-
-    mongoose.connection.close();
-
-    return NextResponse.json({
-      status: 200,
-      result: "success",
-      success: true,
-    });
-  } catch (error) {
-    console.error("Error updating task:", error);
-
-    return NextResponse.json({
-      status: 500,
-      result: "error",
-      error: error.message,
-    });
-  }
+  return NextResponse.json({
+    status: 200,
+    result: final,
+    success: true,
+  });
 }
+
+// export async function PUT(request, content) {
+//   let { taskid } = content.params;
+//   const filter = { _id: taskid };
+//   console.log("Filter!!!!!!!!!!!", filter);
+
+//   const payload = await request.json();
+//   console.log("??????????????????", payload);
+//   await mongoose.connect(connectionStr);
+//   const result = await TaskData.findOneAndUpdate(filter, payload);
+//   console.log("@@@@@@@@@", result);
+//   return NextResponse.json({ result, success: true });
+// }
 
 export async function DELETE(request, content) {
   try {
