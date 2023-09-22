@@ -3,7 +3,7 @@ import DeleteTask from "@/components/DeleteTask";
 import EditTask from "@/components/EditTask";
 
 async function getData(id) {
-  let data = await fetch(`http://localhost:3000/api/project/task/${id}`, {
+  let data = await fetch(`http://localhost:3000/api/task/${id}`, {
     cache: "no-store",
   });
   let result = await data.json();

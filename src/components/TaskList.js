@@ -15,7 +15,7 @@ function TaskList({ projectId }) {
   const fetchTasks = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/project/task/?projectId=${projectId}`,
+        `http://localhost:3000/api/task/?projectId=${projectId}`,
         {
           method: "GET",
         }

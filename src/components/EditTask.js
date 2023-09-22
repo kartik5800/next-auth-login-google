@@ -13,16 +13,13 @@ const EditTask = ({ id, taskData }) => {
 
   const handleUpdateProject = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:3000/api/project/task/${id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updateTaskData),
-        }
-      );
+      const response = await fetch(`http://localhost:3000/api/task/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updateTaskData),
+      });
 
       if (response.ok) {
         const responseData = await response.json();

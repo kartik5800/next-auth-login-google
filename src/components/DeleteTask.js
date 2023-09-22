@@ -11,12 +11,9 @@ const DeleteTask = (props) => {
 
   const handleDeleteTask = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:3000/api/project/task/${taskid}`,
-        {
-          method: "DELETE",
-        }
-      );
+      const response = await fetch(`http://localhost:3000/api/task/${taskid}`, {
+        method: "DELETE",
+      });
 
       const data = await response.json();
       if (data.success) {

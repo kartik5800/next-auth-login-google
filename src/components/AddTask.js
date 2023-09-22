@@ -22,7 +22,7 @@ function AddTask({ projectId }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:3000/api/project/task", {
+      const response = await fetch("http://localhost:3000/api/task", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
