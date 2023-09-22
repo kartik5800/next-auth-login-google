@@ -56,6 +56,7 @@ export async function POST(request) {
       projectId: project._id,
       taskName: payload.taskName,
       taskId: newTaskId,
+      ...payload,
     });
 
     await newTask.save();

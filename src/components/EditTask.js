@@ -1,33 +1,15 @@
 "use client";
 import { Button, Dialog, Flex } from "@radix-ui/themes";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
-const EditTask = ({ id, projectId }) => {
-  // const router = useRouter();
+const EditTask = ({ id, taskData }) => {
+  const router = useRouter();
   const [updateTaskData, setUpdateTaskData] = useState({
-    taskName: "",
-    assignedUser: "",
-    status: "",
+    taskName: taskData.taskName ?? "",
+    assignedUser: taskData.assignedUser ?? "",
+    status: taskData.status ?? "",
   });
-
-  console.log("updateTaskData", updateTaskData);
-
-  useEffect(() => {
-    getProject();
-  }, []);
-
-  const getProject = async () => {
-    let data = await fetch(`http://localhost:3000/api/project/task/${id}`, {
-      cache: "no-store",
-    });
-    data = await data.json();
-    if (data.success) {
-      setUpdateTaskData(data.task);
-    } else {
-      return { success: false };
-    }
-  };
 
   const handleUpdateProject = async () => {
     try {
@@ -46,8 +28,9 @@ const EditTask = ({ id, projectId }) => {
         const responseData = await response.json();
         if (responseData.success) {
           alert("Project updated successfully");
-          // router.push(`/project/projectdetails/${projectId}/task/${id}`);
-          getProject();
+          router.push(
+            `/project/projectdetails/${taskData.projectId}/task/${id}`
+          );
         } else {
           alert("Failed to update project");
         }
@@ -85,6 +68,36 @@ const EditTask = ({ id, projectId }) => {
               }
               className="border rounded p-2 mt-2 w-full"
             />
+
+            <select
+              value={updateTaskData.assignedUser}
+              onChange={(e) =>
+                setUpdateTaskData({
+                  ...updateTaskData,
+                  assignedUser: e.target.value,
+                })
+              }
+              className="border rounded p-2 mt-2 w-full"
+            >
+              <option value="kartik">kartik</option>
+              <option value="deep">deep</option>
+              <option value="kishan">kishan</option>
+              <option value="mit">mit</option>
+            </select>
+
+            <select
+              value={updateTaskData.status}
+              onChange={(e) =>
+                setUpdateTaskData({
+                  ...updateTaskData,
+                  status: e.target.value,
+                })
+              }
+              className="border rounded p-2 mt-2 w-full"
+            >
+              <option value="Progress">Progress</option>
+              <option value="Complete">Complete</option>
+            </select>
           </Flex>
 
           <Flex gap="3" mt="4" justify="end">

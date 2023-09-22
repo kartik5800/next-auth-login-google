@@ -1,8 +1,8 @@
+import mongoose from "mongoose";
+import { NextResponse } from "next/server";
 import { connectionStr } from "@/lib/db";
 import { ProjectData } from "@/lib/model/project";
 import { TaskData } from "@/lib/model/task";
-import mongoose from "mongoose";
-import { NextResponse } from "next/server";
 
 export async function PUT(request, content) {
   const { taskid } = content.params;
@@ -49,19 +49,6 @@ export async function PUT(request, content) {
   }
 }
 
-// export async function PUT(request, content) {
-//   let { taskid } = content.params;
-//   const filter = { _id: taskid };
-//   console.log("Filter!!!!!!!!!!!", filter);
-
-//   const payload = await request.json();
-//   console.log("??????????????????", payload);
-//   await mongoose.connect(connectionStr);
-//   const result = await TaskData.findOneAndUpdate(filter, payload);
-//   console.log("@@@@@@@@@", result);
-//   return NextResponse.json({ result, success: true });
-// }
-
 export async function DELETE(request, content) {
   try {
     const { taskid } = content.params;
@@ -94,8 +81,14 @@ export async function DELETE(request, content) {
 }
 
 export async function GET(request, content) {
-  const { taskid } = content.params;
-  await mongoose.connect(connectionStr);
-  const task = await TaskData.findById({ _id: taskid });
+  let task;
+  try {
+    const { taskid } = content.params;
+    await mongoose.connect(connectionStr);
+    task = await TaskData.findById(taskid);
+  } catch (error) {
+    console.log("GET Error", error);
+    throw new Error("error");
+  }
   return NextResponse.json({ task, success: true });
 }

@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 
 export default function SingleProject({ params }) {
   const [projectData, setProjectData] = useState({});
-
   const ID = params.projectid;
 
   useEffect(() => {
@@ -64,12 +63,12 @@ export default function SingleProject({ params }) {
           <p className="font-bold">Description</p>
           <p>{projectData.projectDescription ?? ""}</p>
         </div>
-      </div>
-      <div>
-        <AddTask
-          projectId={projectData._id}
-          onAddTask={(task) => handleTaskAdded(task)}
-        />
+        <div className="flex justify-end p-2">
+          <AddTask
+            projectId={projectData._id}
+            onAddTask={(task) => handleTaskAdded(task)}
+          />
+        </div>
       </div>
       <div>
         <TaskList projectId={projectData._id} />
