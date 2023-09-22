@@ -9,6 +9,7 @@ const projectModel = new mongoose.Schema({
   startDate: Date,
   endDate: Date,
   tasks: [{ type: mongoose.Schema.Types.ObjectId, ref: "TaskData" }],
+  projectMembers: [{ type: mongoose.Schema.Types.ObjectId, ref: "Employee" }],
 });
 
 export const ProjectData =

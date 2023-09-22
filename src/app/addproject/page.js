@@ -1,12 +1,15 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { v4 as uuid } from "uuid";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Select from "react-select";
 
 const AddProject = () => {
   const router = useRouter();
+  const [selectedEmployees, setSelectedEmployees] = useState([]);
+  const [allEmployees, setAllEmployees] = useState([]);
   const [projectData, setProjectData] = useState({
     id: uuid(),
     projectName: "",
@@ -15,6 +18,7 @@ const AddProject = () => {
     projectDescription: "",
     startDate: null,
     endDate: null,
+    projectMembers: [],
   });
   const [errors, setErrors] = useState({});
 
@@ -43,7 +47,7 @@ const AddProject = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = {};
-
+    projectData.projectMembers = selectedEmployees;
     if (Object.keys(newErrors).length === 0) {
       let result = await fetch("http://localhost:3000/api/project", {
         method: "POST",
@@ -62,11 +66,38 @@ const AddProject = () => {
           startDate: null,
           endDate: null,
         });
+        setSelectedEmployees([]);
         router.push("http://localhost:3000");
       }
     } else {
       setErrors(newErrors);
     }
+  };
+
+  useEffect(() => {
+    const fetchEmployees = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/api/employee");
+        if (response.ok) {
+          const data = await response.json();
+          const employees = data.result;
+          setAllEmployees(
+            employees.map((employee) => ({
+              value: employee._id,
+              label: employee.name,
+            }))
+          );
+        }
+      } catch (error) {
+        console.error("Error fetching employees:", error);
+      }
+    };
+
+    fetchEmployees();
+  }, []);
+
+  const handleEmployeeSelection = (selectedOptions) => {
+    setSelectedEmployees(selectedOptions.map((option) => option.value));
   };
 
   return (
@@ -173,6 +204,19 @@ const AddProject = () => {
               dateFormat="dd-MM-yyyy"
             />
           </div>
+        </div>
+
+        <div>
+          <label>Project Members:</label>
+          <Select
+            isMulti
+            name="projectMembers"
+            options={allEmployees}
+            value={allEmployees.filter((employee) =>
+              selectedEmployees.includes(employee.value)
+            )}
+            onChange={handleEmployeeSelection}
+          />
         </div>
 
         <div className="flex justify-end">

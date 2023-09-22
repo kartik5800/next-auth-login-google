@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Select from "react-select";
 
 export default function UpdateProject({ params }) {
   const router = useRouter();
@@ -16,17 +17,42 @@ export default function UpdateProject({ params }) {
     projectDescription: "",
     startDate: null,
     endDate: null,
+    projectMembers: [],
   });
+
+  console.log("===", updatedProjectData.projectMembers);
+
+  const [allEmployees, setAllEmployees] = useState([]);
 
   useEffect(() => {
     getProjectData();
+    fetchEmployees();
   }, [ID]);
+
+  const fetchEmployees = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/api/employee");
+      if (response.ok) {
+        const data = await response.json();
+        const employees = data.result;
+        setAllEmployees(
+          employees.map((employee) => ({
+            value: employee._id,
+            label: employee.name,
+          }))
+        );
+      }
+    } catch (error) {
+      console.error("Error fetching employees:", error);
+    }
+  };
 
   const getProjectData = async () => {
     try {
       const response = await fetch(`http://localhost:3000/api/project/${ID}`);
       if (response.ok) {
         const data = await response.json();
+        console.log("update project data", data);
         setUpdatedProjectData({
           projectName: data.result.projectName,
           frontend: data.result.frontend,
@@ -34,6 +60,7 @@ export default function UpdateProject({ params }) {
           projectDescription: data.result.projectDescription,
           startDate: new Date(data.result.startDate),
           endDate: new Date(data.result.endDate),
+          projectMembers: data.result.projectMembers,
         });
       }
     } catch (error) {
@@ -61,6 +88,14 @@ export default function UpdateProject({ params }) {
     } catch (error) {
       console.error("Error updating project:", error);
     }
+  };
+
+  const handleProjectMembersChange = (selectedOptions) => {
+    const selectedValues = selectedOptions.map((option) => option.value);
+    setUpdatedProjectData((prevData) => ({
+      ...prevData,
+      projectMembers: selectedValues,
+    }));
   };
 
   return (
@@ -198,6 +233,20 @@ export default function UpdateProject({ params }) {
               dateFormat="dd-MM-yyyy"
             />
           </div>
+        </div>
+
+        <div>
+          <label>Project Members:</label>
+          <Select
+            isMulti
+            selected={updatedProjectData.projectMembers}
+            name="projectMembers"
+            options={allEmployees}
+            value={allEmployees.filter((employee) =>
+              updatedProjectData.projectMembers.includes(employee.value)
+            )}
+            onChange={handleProjectMembersChange}
+          />
         </div>
 
         <div className="flex justify-end">

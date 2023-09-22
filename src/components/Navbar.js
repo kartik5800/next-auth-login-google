@@ -23,7 +23,9 @@ const Navbar = () => {
           <li>
             <Link href="/">Projects</Link>
           </li>
-          <li>Add Project</li>
+          <li>
+            <Link href={"/employees"}>Employee</Link>
+          </li>
 
           {session ? (
             <li className="relative group">
