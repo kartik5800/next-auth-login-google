@@ -91,7 +91,10 @@ export default function UpdateProject({ params }) {
   };
 
   const handleProjectMembersChange = (selectedOptions) => {
-    const selectedValues = selectedOptions.map((option) => option.value);
+    const selectedValues = selectedOptions.map((option) => ({
+      _id: option.value,
+      name: option.label,
+    }));
     setUpdatedProjectData((prevData) => ({
       ...prevData,
       projectMembers: selectedValues,
@@ -239,12 +242,12 @@ export default function UpdateProject({ params }) {
           <label>Project Members:</label>
           <Select
             isMulti
-            selected={updatedProjectData.projectMembers}
             name="projectMembers"
             options={allEmployees}
-            value={allEmployees.filter((employee) =>
-              updatedProjectData.projectMembers.includes(employee.value)
-            )}
+            value={updatedProjectData.projectMembers.map((member) => ({
+              value: member._id,
+              label: member.name,
+            }))}
             onChange={handleProjectMembersChange}
           />
         </div>
