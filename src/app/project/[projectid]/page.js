@@ -20,8 +20,6 @@ export default function UpdateProject({ params }) {
     projectMembers: [],
   });
 
-  console.log("===", updatedProjectData.projectMembers);
-
   const [allEmployees, setAllEmployees] = useState([]);
 
   useEffect(() => {
@@ -52,7 +50,6 @@ export default function UpdateProject({ params }) {
       const response = await fetch(`http://localhost:3000/api/project/${ID}`);
       if (response.ok) {
         const data = await response.json();
-        console.log("update project data", data);
         setUpdatedProjectData({
           projectName: data.result.projectName,
           frontend: data.result.frontend,

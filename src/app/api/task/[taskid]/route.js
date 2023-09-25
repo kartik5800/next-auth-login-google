@@ -85,7 +85,7 @@ export async function GET(request, content) {
   try {
     const { taskid } = content.params;
     await mongoose.connect(connectionStr);
-    task = await TaskData.findById(taskid);
+    task = await TaskData.findById(taskid).populate("assignedUser");
   } catch (error) {
     console.log("GET Error", error);
     throw new Error("error");

@@ -1,15 +1,30 @@
 "use client";
 import { Button, Dialog, Flex } from "@radix-ui/themes";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import Select from "react-select";
 
 const EditTask = ({ id, taskData }) => {
   const router = useRouter();
+  const [projectEmployee, setProjectEmployee] = useState([]);
+  const [selectedUser, setSelectedUser] = useState({
+    value: taskData.assignedUser._id,
+    label: taskData.assignedUser.name,
+  });
+
   const [updateTaskData, setUpdateTaskData] = useState({
     taskName: taskData.taskName ?? "",
-    assignedUser: taskData.assignedUser ?? "",
+    assignedUser: selectedUser,
     status: taskData.status ?? "",
   });
+
+  const handleProjectMembersChange = (selectedOption) => {
+    setSelectedUser(selectedOption);
+    setUpdateTaskData((prevData) => ({
+      ...prevData,
+      assignedUser: selectedOption.value,
+    }));
+  };
 
   const handleUpdateProject = async () => {
     try {
@@ -39,6 +54,22 @@ const EditTask = ({ id, taskData }) => {
     }
   };
 
+  useEffect(() => {
+    getEmployeeOfProject();
+  }, []);
+
+  const getEmployeeOfProject = async () => {
+    const empData = await fetch(
+      `http://localhost:3000/api/project/users/?projectId=${taskData?.projectId}`
+    );
+    const EmpResponseData = await empData.json();
+    const selectedValues = EmpResponseData?.specificUsers?.map((option) => ({
+      value: option._id,
+      label: option.name,
+    }));
+    setProjectEmployee(selectedValues);
+  };
+
   return (
     <div>
       {" "}
@@ -66,21 +97,12 @@ const EditTask = ({ id, taskData }) => {
               className="border rounded p-2 mt-2 w-full"
             />
 
-            <select
-              value={updateTaskData.assignedUser}
-              onChange={(e) =>
-                setUpdateTaskData({
-                  ...updateTaskData,
-                  assignedUser: e.target.value,
-                })
-              }
-              className="border rounded p-2 mt-2 w-full"
-            >
-              <option value="kartik">kartik</option>
-              <option value="deep">deep</option>
-              <option value="kishan">kishan</option>
-              <option value="mit">mit</option>
-            </select>
+            <Select
+              name="projectMembers"
+              options={projectEmployee}
+              value={selectedUser}
+              onChange={handleProjectMembersChange}
+            />
 
             <select
               value={updateTaskData.status}

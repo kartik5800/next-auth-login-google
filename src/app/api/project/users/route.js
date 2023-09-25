@@ -8,16 +8,11 @@ import { ProjectData } from "@/lib/model/project";
 
 export async function GET(request, content) {
   const url = parse(request.url, true);
-  const projectId = url.query.project_id;
-
+  const projectId = url.query.projectId;
   await mongoose.connect(connectionStr);
-
   const specificUsers = await ProjectData.findById(projectId).populate(
     "projectMembers"
   );
-
-  console.log("==============================", specificUsers);
-
   return NextResponse.json({
     status: "success",
     specificUsers: specificUsers?.projectMembers || [],

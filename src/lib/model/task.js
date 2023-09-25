@@ -15,15 +15,12 @@ const taskSchema = new mongoose.Schema({
   createdBy: {
     type: String,
   },
-  assignedUser: {
-    type: String,
-  },
+  assignedUser: { type: mongoose.Schema.Types.ObjectId, ref: "Employee" },
   status: {
     type: String,
   },
   lastUpdatedDate: {
     type: Date,
-    // default: Date.now,
   },
   taskId: {
     type: Number,

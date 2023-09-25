@@ -11,7 +11,9 @@ export async function GET(request) {
     const projectId = url.query.projectId;
     await mongoose.connect(connectionStr);
 
-    const project = await ProjectData.findById(projectId);
+    const project = await ProjectData.findById(projectId).populate(
+      "projectMembers"
+    );
 
     if (!project) {
       return {

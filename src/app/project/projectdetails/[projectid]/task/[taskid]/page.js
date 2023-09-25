@@ -43,7 +43,7 @@ async function TaskDetailPage({ params }) {
             <p>|</p>
             <p>
               <span className=" font-bold">Assigned to:- </span>
-              {taskData?.assignedUser ?? ""}
+              {taskData?.assignedUser.name ?? ""}
             </p>
           </div>
         </div>

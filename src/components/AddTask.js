@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
-function AddTask({ projectId }) {
+function AddTask({ projectId, projectMembers }) {
   const { data: session } = useSession();
   const router = useRouter();
 
@@ -78,9 +78,13 @@ function AddTask({ projectId }) {
               onChange={handleInputChange}
               className="border rounded p-2 mt-2 w-full"
             >
-              <option value="kartik">kartik</option>
-              <option value="deep">deep</option>
-              <option value="sujal">sujal</option>
+              {projectMembers?.map((member) => {
+                return (
+                  <option key={member?._id} value={member?._id}>
+                    {member?.name}
+                  </option>
+                );
+              })}
             </select>
 
             <select

@@ -63,10 +63,28 @@ export default function SingleProject({ params }) {
           <p className="font-bold">Description</p>
           <p>{projectData.projectDescription ?? ""}</p>
         </div>
+
+        <div className=" gap-8 bg-slate-200 p-2 rounded-md m-3">
+          <p className="font-bold">Members</p>
+          {projectData?.projectMembers?.map((emp, index) => {
+            return (
+              <ul key={index}>
+                <li className="p-2 font-bold">
+                  {emp.name}
+                  <span className="p-1 ml-4 rounded-md bg-slate-100 font-normal">
+                    {emp?.designation}
+                  </span>
+                </li>
+              </ul>
+            );
+          })}
+        </div>
+
         <div className="flex justify-end p-2">
           <AddTask
             projectId={projectData._id}
             onAddTask={(task) => handleTaskAdded(task)}
+            projectMembers={projectData?.projectMembers}
           />
         </div>
       </div>
