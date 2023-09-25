@@ -10,6 +10,7 @@ export default function UpdateProject({ params }) {
   const router = useRouter();
   const ID = params.projectid;
 
+  const [allEmployees, setAllEmployees] = useState([]);
   const [updatedProjectData, setUpdatedProjectData] = useState({
     projectName: "",
     frontend: "",
@@ -19,8 +20,7 @@ export default function UpdateProject({ params }) {
     endDate: null,
     projectMembers: [],
   });
-
-  const [allEmployees, setAllEmployees] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     getProjectData();
@@ -62,6 +62,8 @@ export default function UpdateProject({ params }) {
       }
     } catch (error) {
       console.error("Error fetching project:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -104,169 +106,175 @@ export default function UpdateProject({ params }) {
         Edit Project
       </div>
 
-      <form className="p-4">
-        <div className="mb-4">
-          <label
-            htmlFor="projectName"
-            className="block text-gray-600 font-semibold"
-          >
-            Project Name
-          </label>
-          <input
-            type="text"
-            name="projectName"
-            className="border rounded-md p-2 w-full"
-            value={updatedProjectData.projectName}
-            onChange={(e) =>
-              setUpdatedProjectData({
-                ...updatedProjectData,
-                projectName: e.target.value,
-              })
-            }
-          />
+      {isLoading ? (
+        <div className="text-center mt-4">
+          <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-slate-600 mx-auto"></div>
         </div>
-
-        <div className="flex gap-4">
+      ) : (
+        <form className="p-4">
           <div className="mb-4">
             <label
               htmlFor="projectName"
               className="block text-gray-600 font-semibold"
             >
-              Back-end
+              Project Name
             </label>
             <input
               type="text"
-              name="backend"
+              name="projectName"
               className="border rounded-md p-2 w-full"
-              value={updatedProjectData.backend}
+              value={updatedProjectData.projectName}
               onChange={(e) =>
                 setUpdatedProjectData({
                   ...updatedProjectData,
-                  backend: e.target.value,
+                  projectName: e.target.value,
                 })
               }
             />
           </div>
 
+          <div className="flex gap-4">
+            <div className="mb-4">
+              <label
+                htmlFor="projectName"
+                className="block text-gray-600 font-semibold"
+              >
+                Back-end
+              </label>
+              <input
+                type="text"
+                name="backend"
+                className="border rounded-md p-2 w-full"
+                value={updatedProjectData.backend}
+                onChange={(e) =>
+                  setUpdatedProjectData({
+                    ...updatedProjectData,
+                    backend: e.target.value,
+                  })
+                }
+              />
+            </div>
+
+            <div className="mb-4">
+              <label
+                htmlFor="projectName"
+                className="block text-gray-600 font-semibold"
+              >
+                Front-end
+              </label>
+              <input
+                type="text"
+                name="frontend"
+                className="border rounded-md p-2 w-full"
+                value={updatedProjectData.frontend}
+                onChange={(e) =>
+                  setUpdatedProjectData({
+                    ...updatedProjectData,
+                    frontend: e.target.value,
+                  })
+                }
+              />
+            </div>
+          </div>
+
           <div className="mb-4">
             <label
-              htmlFor="projectName"
+              htmlFor="projectDescription"
               className="block text-gray-600 font-semibold"
             >
-              Front-end
+              Project Description
             </label>
-            <input
-              type="text"
-              name="frontend"
+            <textarea
+              name="projectDescription"
+              rows={5}
               className="border rounded-md p-2 w-full"
-              value={updatedProjectData.frontend}
+              value={updatedProjectData.projectDescription}
               onChange={(e) =>
                 setUpdatedProjectData({
                   ...updatedProjectData,
-                  frontend: e.target.value,
+                  projectDescription: e.target.value,
                 })
               }
             />
           </div>
-        </div>
 
-        <div className="mb-4">
-          <label
-            htmlFor="projectDescription"
-            className="block text-gray-600 font-semibold"
-          >
-            Project Description
-          </label>
-          <textarea
-            name="projectDescription"
-            rows={5}
-            className="border rounded-md p-2 w-full"
-            value={updatedProjectData.projectDescription}
-            onChange={(e) =>
-              setUpdatedProjectData({
-                ...updatedProjectData,
-                projectDescription: e.target.value,
-              })
-            }
-          />
-        </div>
+          <div className="flex gap-4">
+            <div className="mb-4">
+              <label
+                htmlFor="startDate"
+                className="block text-gray-600 font-semibold"
+              >
+                Start Date
+              </label>
+              <DatePicker
+                name="startDate"
+                selected={updatedProjectData.startDate}
+                onChange={(date) =>
+                  setUpdatedProjectData({
+                    ...updatedProjectData,
+                    startDate: date,
+                  })
+                }
+                className="border rounded-md p-2 w-full"
+                dateFormat="dd-MM-yyyy"
+              />
+            </div>
 
-        <div className="flex gap-4">
-          <div className="mb-4">
-            <label
-              htmlFor="startDate"
-              className="block text-gray-600 font-semibold"
-            >
-              Start Date
-            </label>
-            <DatePicker
-              name="startDate"
-              selected={updatedProjectData.startDate}
-              onChange={(date) =>
-                setUpdatedProjectData({
-                  ...updatedProjectData,
-                  startDate: date,
-                })
-              }
-              className="border rounded-md p-2 w-full"
-              dateFormat="dd-MM-yyyy"
+            <div className="mb-4">
+              <label
+                htmlFor="endDate"
+                className="block text-gray-600 font-semibold"
+              >
+                End Date
+              </label>
+              <DatePicker
+                name="endDate"
+                selected={updatedProjectData.endDate}
+                onChange={(date) =>
+                  setUpdatedProjectData({
+                    ...updatedProjectData,
+                    endDate: date,
+                  })
+                }
+                className="border rounded-md p-2 w-full"
+                dateFormat="dd-MM-yyyy"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label>Project Members:</label>
+            <Select
+              isMulti
+              name="projectMembers"
+              options={allEmployees}
+              value={updatedProjectData.projectMembers.map((member) => ({
+                value: member._id,
+                label: member.name,
+              }))}
+              onChange={handleProjectMembersChange}
             />
           </div>
 
-          <div className="mb-4">
-            <label
-              htmlFor="endDate"
-              className="block text-gray-600 font-semibold"
-            >
-              End Date
-            </label>
-            <DatePicker
-              name="endDate"
-              selected={updatedProjectData.endDate}
-              onChange={(date) =>
-                setUpdatedProjectData({
-                  ...updatedProjectData,
-                  endDate: date,
-                })
-              }
-              className="border rounded-md p-2 w-full"
-              dateFormat="dd-MM-yyyy"
-            />
-          </div>
-        </div>
-
-        <div>
-          <label>Project Members:</label>
-          <Select
-            isMulti
-            name="projectMembers"
-            options={allEmployees}
-            value={updatedProjectData.projectMembers.map((member) => ({
-              value: member._id,
-              label: member.name,
-            }))}
-            onChange={handleProjectMembersChange}
-          />
-        </div>
-
-        <div className="flex justify-end">
-          <Link href={"/"}>
+          <div className="flex justify-end">
+            <Link href={"/"}>
+              <button
+                type="button"
+                className="bg-red-500 text-white rounded p-2 mr-2"
+              >
+                Cancel
+              </button>
+            </Link>
             <button
               type="button"
-              className="bg-red-500 text-white rounded p-2 mr-2"
+              onClick={handleUpdateProject}
+              className="bg-blue-500 text-white rounded p-2"
             >
-              Cancel
+              Update Project
             </button>
-          </Link>
-          <button
-            type="button"
-            onClick={handleUpdateProject}
-            className="bg-blue-500 text-white rounded p-2"
-          >
-            Update Project
-          </button>
-        </div>
-      </form>
+          </div>
+        </form>
+      )}
     </div>
   );
 }

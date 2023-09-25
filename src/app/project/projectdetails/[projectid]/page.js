@@ -6,8 +6,9 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function SingleProject({ params }) {
-  const [projectData, setProjectData] = useState({});
   const ID = params.projectid;
+  const [projectData, setProjectData] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     getProjectData();
@@ -22,6 +23,8 @@ export default function SingleProject({ params }) {
       }
     } catch (error) {
       console.error("Error fetching project:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -29,68 +32,76 @@ export default function SingleProject({ params }) {
 
   return (
     <div className="flex flex-col justify-center items-center">
-      <div className="bg-white w-3/4 p-3 m-4 rounded-lg">
-        <h1 className="text-3xl font-bold underline text-center">
-          {projectData.projectName}
-        </h1>
+      {isLoading ? (
+        <div className="text-center mt-4">
+          <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-slate-600 mx-auto"></div>
+        </div>
+      ) : (
+        <>
+          <div className="bg-white w-3/4 p-3 m-4 rounded-lg">
+            <h1 className="text-3xl font-bold underline text-center">
+              {projectData.projectName}
+            </h1>
 
-        <div className="flex justify-between m-3">
-          <div className="flex gap-8 bg-slate-200 p-2 rounded-md">
-            <p>
-              <span className="font-bold">Front-end: </span>
-              {projectData.frontend ?? ""}
-            </p>
-            <p>|</p>
-            <p>
-              {" "}
-              <span className="font-bold">Back-end: </span>{" "}
-              {projectData.backend ?? ""}
-            </p>
+            <div className="flex justify-between m-3">
+              <div className="flex gap-8 bg-slate-200 p-2 rounded-md">
+                <p>
+                  <span className="font-bold">Front-end: </span>
+                  {projectData.frontend ?? ""}
+                </p>
+                <p>|</p>
+                <p>
+                  {" "}
+                  <span className="font-bold">Back-end: </span>{" "}
+                  {projectData.backend ?? ""}
+                </p>
+              </div>
+              <div className="flex gap-8 bg-slate-200 p-2 rounded-md">
+                <p>
+                  <span className=" font-bold"> Start-Date: </span>
+                  {moment(projectData.startDate).format("DD/MM/YYYY") ?? ""}
+                </p>
+                <p>|</p>
+                <p>
+                  <span className=" font-bold">End-Date: </span>
+                  {moment(projectData.endDate).format("DD/MM/YYYY") ?? ""}
+                </p>
+              </div>
+            </div>
+            <div className=" gap-8 bg-slate-200 p-2 rounded-md m-3">
+              <p className="font-bold">Description</p>
+              <p>{projectData.projectDescription ?? ""}</p>
+            </div>
+
+            <div className=" gap-8 bg-slate-200 p-2 rounded-md m-3">
+              <p className="font-bold">Members</p>
+              {projectData?.projectMembers?.map((emp, index) => {
+                return (
+                  <ul key={index}>
+                    <li className="p-2 font-bold">
+                      {emp.name}
+                      <span className="p-1 ml-4 rounded-md bg-slate-100 font-normal">
+                        {emp?.designation}
+                      </span>
+                    </li>
+                  </ul>
+                );
+              })}
+            </div>
+
+            <div className="flex justify-end p-2">
+              <AddTask
+                projectId={projectData._id}
+                onAddTask={(task) => handleTaskAdded(task)}
+                projectMembers={projectData?.projectMembers}
+              />
+            </div>
           </div>
-          <div className="flex gap-8 bg-slate-200 p-2 rounded-md">
-            <p>
-              <span className=" font-bold"> Start-Date: </span>
-              {moment(projectData.startDate).format("DD/MM/YYYY") ?? ""}
-            </p>
-            <p>|</p>
-            <p>
-              <span className=" font-bold">End-Date: </span>
-              {moment(projectData.endDate).format("DD/MM/YYYY") ?? ""}
-            </p>
+          <div>
+            <TaskList projectId={projectData._id} />
           </div>
-        </div>
-        <div className=" gap-8 bg-slate-200 p-2 rounded-md m-3">
-          <p className="font-bold">Description</p>
-          <p>{projectData.projectDescription ?? ""}</p>
-        </div>
-
-        <div className=" gap-8 bg-slate-200 p-2 rounded-md m-3">
-          <p className="font-bold">Members</p>
-          {projectData?.projectMembers?.map((emp, index) => {
-            return (
-              <ul key={index}>
-                <li className="p-2 font-bold">
-                  {emp.name}
-                  <span className="p-1 ml-4 rounded-md bg-slate-100 font-normal">
-                    {emp?.designation}
-                  </span>
-                </li>
-              </ul>
-            );
-          })}
-        </div>
-
-        <div className="flex justify-end p-2">
-          <AddTask
-            projectId={projectData._id}
-            onAddTask={(task) => handleTaskAdded(task)}
-            projectMembers={projectData?.projectMembers}
-          />
-        </div>
-      </div>
-      <div>
-        <TaskList projectId={projectData._id} />
-      </div>
+        </>
+      )}
     </div>
   );
 }

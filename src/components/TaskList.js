@@ -5,6 +5,7 @@ import Link from "next/link";
 
 function TaskList({ projectId }) {
   const [tasks, setTasks] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (projectId) {
@@ -27,6 +28,8 @@ function TaskList({ projectId }) {
       }
     } catch (error) {
       console.error("Error fetching tasks:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -35,24 +38,29 @@ function TaskList({ projectId }) {
       <div className="flex justify-center bg-slate-900 p-3 text-white">
         <h2 className="text-2xl font-semibold">Listing of Tasks</h2>
       </div>
-
-      <div className="grid  grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4 mt-4">
-        {tasks?.map((task) => (
-          <div
-            key={task._id}
-            className="border bg-white rounded-lg p-4 shadow-md hover:shadow-lg hover:bg-gray-100 transition duration-300"
-          >
-            <Link
-              href={`/project/projectdetails/${task.projectId}/task/${task._id}`}
+      {isLoading ? (
+        <div className="text-center mt-4">
+          <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-slate-600 mx-auto"></div>
+        </div>
+      ) : (
+        <div className="grid  grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4 mt-4">
+          {tasks?.map((task) => (
+            <div
+              key={task._id}
+              className="border bg-white rounded-lg p-4 shadow-md hover:shadow-lg hover:bg-gray-100 transition duration-300"
             >
-              <div className="p-4">
-                <p className="text-lg font-semibold"> ID:-{task.taskId}</p>
-                <p className="">{task.taskName}</p>
-              </div>
-            </Link>
-          </div>
-        ))}
-      </div>
+              <Link
+                href={`/project/projectdetails/${task.projectId}/task/${task._id}`}
+              >
+                <div className="p-4">
+                  <p className="text-lg font-semibold"> ID:-{task.taskId}</p>
+                  <p className="">{task.taskName}</p>
+                </div>
+              </Link>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
