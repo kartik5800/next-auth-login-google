@@ -5,23 +5,30 @@ import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
-  let payload = await request.json();
-  const { username, email, phone, password } = payload;
+  try {
+    let payload = await request.json();
+    const { username, email, phone, password } = payload;
 
-  await mongoose.connect(connectionStr);
+    await mongoose.connect(connectionStr);
 
-  // const salt = bcrypt.genSaltSync(12);
-  // const hashedpassword = bcrypt.hashSync(password, salt);
+    // const salt = bcrypt.genSaltSync(12);
+    // const hashedpassword = bcrypt.hashSync(password, salt);
 
-  const user = new RagisterData({
-    username,
-    email,
-    phone,
-    password,
-    // password: hashedpassword,
-  });
+    const user = new RagisterData({
+      username,
+      email,
+      phone,
+      password,
+      // password: hashedpassword,
+    });
 
-  const result = await user.save();
+    const result = await user.save();
 
-  return NextResponse.json({ result, success: true });
+    return NextResponse.json({ result, success: true });
+  } catch (error) {
+    console.error("Error in POST request:", error);
+    return NextResponse.json({ error: error.message, success: false });
+  } finally {
+    mongoose.connection.close();
+  }
 }

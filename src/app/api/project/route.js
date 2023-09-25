@@ -15,14 +15,6 @@ export async function GET() {
   return NextResponse.json({ result: data, success: true });
 }
 
-// export async function POST(request) {
-//   let payload = await request.json();
-//   await mongoose.connect(connectionStr);
-//   const project = new ProjectData(payload);
-//   const result = await project.save();
-//   return NextResponse.json({ result, success: true });
-// }
-
 export async function POST(request) {
   try {
     const payload = await request.json();
