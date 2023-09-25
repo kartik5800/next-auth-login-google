@@ -17,7 +17,9 @@ const Navbar = () => {
   return (
     <nav className="bg-gray-800 p-4">
       <div className="container flex justify-between items-center">
-        <h1 className="text-2xl text-white font-semibold">My App</h1>
+        <Link href={"/"}>
+          <h1 className="text-2xl text-white font-semibold">My App</h1>
+        </Link>
 
         <ul className="flex space-x-4 items-center text-white">
           <li>

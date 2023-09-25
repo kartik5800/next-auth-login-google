@@ -60,7 +60,7 @@ function AddEmployee({ projectId }) {
         <Dialog.Content style={{ maxWidth: 450 }}>
           <Dialog.Title>Add</Dialog.Title>
           <Dialog.Description size="2" mb="4">
-            Create a task to assign to the project
+            Add Employee to our team
           </Dialog.Description>
 
           <Flex direction="column" gap="3">
@@ -99,7 +99,7 @@ function AddEmployee({ projectId }) {
               </Button>
             </Dialog.Close>
             <Dialog.Close>
-              <Button onClick={handleSubmit}>Create task</Button>
+              <Button onClick={handleSubmit}>Add Employee</Button>
             </Dialog.Close>
           </Flex>
         </Dialog.Content>
