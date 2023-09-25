@@ -9,10 +9,10 @@ export async function GET() {
   try {
     await mongoose.connect(connectionStr);
     data = await ProjectData.find();
+    return NextResponse.json({ result: data, success: true });
   } catch (error) {
     data = { success: false };
   }
-  return NextResponse.json({ result: data, success: true });
 }
 
 export async function POST(request) {

@@ -52,7 +52,9 @@ function AddEmployee({ projectId }) {
     <div>
       <Dialog.Root>
         <Dialog.Trigger>
-          <Button color="blue">Add</Button>
+          <Button style={{ padding: "20px" }} color="gray">
+            Add Employee
+          </Button>
         </Dialog.Trigger>
 
         <Dialog.Content style={{ maxWidth: 450 }}>

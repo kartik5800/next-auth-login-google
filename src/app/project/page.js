@@ -7,7 +7,6 @@ import { AiFillEdit } from "react-icons/ai";
 
 const ProjectList = () => {
   const router = useRouter();
-
   const [projects, setProjects] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -21,7 +20,6 @@ const ProjectList = () => {
         cache: "no-store",
       });
       data = await data.json();
-      console.log(data);
       setProjects(data.result);
       if (data.success) {
         router.push("http://localhost:3000/");
@@ -75,7 +73,7 @@ const ProjectList = () => {
                 <tbody>
                   {projects?.map((project) => (
                     <tr key={project._id} className="border border-slate-600">
-                      <td className="border border-slate-600 px-4 py-2">
+                      <td className="border border-slate-600 px-4 py-2 font-bold hover:underline">
                         <Link href={`project/projectdetails/${project._id}`}>
                           {project.projectName}
                         </Link>
@@ -88,7 +86,7 @@ const ProjectList = () => {
                       </td>
                       <td className="border border-slate-600 px-3">
                         <div className="flex gap-2 ">
-                          <button className="p-2 bg-slate-300 px-5 rounded-md">
+                          <button className=" bg-slate-300  rounded-md">
                             <DeleteButton id={project._id} />
                           </button>
                           <Link href={`/project/${project._id}`}>
