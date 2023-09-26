@@ -15,7 +15,10 @@ const taskSchema = new mongoose.Schema({
   createdBy: {
     type: String,
   },
-  assignedUser: { type: mongoose.Schema.Types.ObjectId, ref: "Employee" },
+  assignedUser: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Employee",
+  },
   status: {
     type: String,
   },
@@ -23,6 +26,24 @@ const taskSchema = new mongoose.Schema({
     type: Date,
   },
   taskId: {
+    type: Number,
+  },
+  priority: {
+    type: String,
+  },
+  taskDescription: {
+    type: String,
+  },
+  startDate: {
+    type: Date,
+  },
+  endDate: {
+    type: Date,
+  },
+  estimatedTime: {
+    type: String,
+  },
+  done: {
     type: Number,
   },
 });

@@ -36,7 +36,6 @@ export async function GET(request) {
 export async function POST(request) {
   try {
     const payload = await request.json();
-
     await mongoose.connect(connectionStr);
 
     const project = await ProjectData.findById(payload.projectId);

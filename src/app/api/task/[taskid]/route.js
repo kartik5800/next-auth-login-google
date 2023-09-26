@@ -27,6 +27,12 @@ export async function PUT(request, content) {
     task.taskName = payload.taskName;
     task.assignedUser = payload.assignedUser;
     task.status = payload.status;
+    task.priority = payload.priority;
+    task.taskDescription = payload.taskDescription;
+    task.startDate = payload.startDate;
+    task.endDate = payload.endDate;
+    task.estimatedTime = payload.estimatedTime;
+    task.done = payload.done;
 
     const updatedTask = await task.save();
 
