@@ -53,8 +53,8 @@ function TaskList({ projectId }) {
                 href={`/project/projectdetails/${task.projectId}/task/${task._id}`}
               >
                 <div className="p-4">
-                  <p className="text-lg font-semibold"> ID:-{task.taskId}</p>
-                  <p className="">{task.taskName}</p>
+                  <p className="text-lg font-semibold"> ID:-{task?.taskId}</p>
+                  <p className="">{task?.taskName}</p>
                 </div>
               </Link>
             </div>

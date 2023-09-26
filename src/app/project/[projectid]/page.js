@@ -32,11 +32,11 @@ export default function UpdateProject({ params }) {
       const response = await fetch("http://localhost:3000/api/employee");
       if (response.ok) {
         const data = await response.json();
-        const employees = data.result;
+        const employees = data?.result;
         setAllEmployees(
           employees.map((employee) => ({
-            value: employee._id,
-            label: employee.name,
+            value: employee?._id,
+            label: employee?.name,
           }))
         );
       }
@@ -51,13 +51,13 @@ export default function UpdateProject({ params }) {
       if (response.ok) {
         const data = await response.json();
         setUpdatedProjectData({
-          projectName: data.result.projectName,
-          frontend: data.result.frontend,
-          backend: data.result.backend,
-          projectDescription: data.result.projectDescription,
-          startDate: new Date(data.result.startDate),
-          endDate: new Date(data.result.endDate),
-          projectMembers: data.result.projectMembers,
+          projectName: data.result.projectName ?? "",
+          frontend: data.result.frontend ?? "",
+          backend: data.result.backend ?? "",
+          projectDescription: data.result.projectDescription ?? "",
+          startDate: new Date(data.result.startDate ?? ""),
+          endDate: new Date(data.result.endDate ?? ""),
+          projectMembers: data.result.projectMembers ?? "",
         });
       }
     } catch (error) {
@@ -123,7 +123,7 @@ export default function UpdateProject({ params }) {
               type="text"
               name="projectName"
               className="border rounded-md p-2 w-full"
-              value={updatedProjectData.projectName}
+              value={updatedProjectData?.projectName}
               onChange={(e) =>
                 setUpdatedProjectData({
                   ...updatedProjectData,
@@ -145,7 +145,7 @@ export default function UpdateProject({ params }) {
                 type="text"
                 name="backend"
                 className="border rounded-md p-2 w-full"
-                value={updatedProjectData.backend}
+                value={updatedProjectData?.backend}
                 onChange={(e) =>
                   setUpdatedProjectData({
                     ...updatedProjectData,
@@ -188,7 +188,7 @@ export default function UpdateProject({ params }) {
               name="projectDescription"
               rows={5}
               className="border rounded-md p-2 w-full"
-              value={updatedProjectData.projectDescription}
+              value={updatedProjectData?.projectDescription}
               onChange={(e) =>
                 setUpdatedProjectData({
                   ...updatedProjectData,
@@ -208,7 +208,7 @@ export default function UpdateProject({ params }) {
               </label>
               <DatePicker
                 name="startDate"
-                selected={updatedProjectData.startDate}
+                selected={updatedProjectData?.startDate}
                 onChange={(date) =>
                   setUpdatedProjectData({
                     ...updatedProjectData,
@@ -248,9 +248,9 @@ export default function UpdateProject({ params }) {
               isMulti
               name="projectMembers"
               options={allEmployees}
-              value={updatedProjectData.projectMembers.map((member) => ({
-                value: member._id,
-                label: member.name,
+              value={updatedProjectData?.projectMembers?.map((member) => ({
+                value: member?._id,
+                label: member?.name,
               }))}
               onChange={handleProjectMembersChange}
             />

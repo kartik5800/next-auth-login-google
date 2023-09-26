@@ -40,37 +40,37 @@ export default function SingleProject({ params }) {
         <>
           <div className="bg-white w-3/4 p-3 m-4 rounded-lg">
             <h1 className="text-3xl font-bold underline text-center">
-              {projectData.projectName}
+              {projectData?.projectName ?? ""}
             </h1>
 
             <div className="flex justify-between m-3">
               <div className="flex gap-8 bg-slate-200 p-2 rounded-md">
                 <p>
                   <span className="font-bold">Front-end: </span>
-                  {projectData.frontend ?? ""}
+                  {projectData?.frontend ?? ""}
                 </p>
                 <p>|</p>
                 <p>
                   {" "}
                   <span className="font-bold">Back-end: </span>{" "}
-                  {projectData.backend ?? ""}
+                  {projectData?.backend ?? ""}
                 </p>
               </div>
               <div className="flex gap-8 bg-slate-200 p-2 rounded-md">
                 <p>
                   <span className=" font-bold"> Start-Date: </span>
-                  {moment(projectData.startDate).format("DD/MM/YYYY") ?? ""}
+                  {moment(projectData?.startDate).format("DD/MM/YYYY") ?? ""}
                 </p>
                 <p>|</p>
                 <p>
                   <span className=" font-bold">End-Date: </span>
-                  {moment(projectData.endDate).format("DD/MM/YYYY") ?? ""}
+                  {moment(projectData?.endDate).format("DD/MM/YYYY") ?? ""}
                 </p>
               </div>
             </div>
             <div className=" gap-8 bg-slate-200 p-2 rounded-md m-3">
               <p className="font-bold">Description</p>
-              <p>{projectData.projectDescription ?? ""}</p>
+              <p>{projectData?.projectDescription ?? ""}</p>
             </div>
 
             <div className=" gap-8 bg-slate-200 p-2 rounded-md m-3">
@@ -79,7 +79,7 @@ export default function SingleProject({ params }) {
                 return (
                   <ul key={index}>
                     <li className="p-2 font-bold">
-                      {emp.name}
+                      {emp?.name}
                       <span className="p-1 ml-4 rounded-md bg-slate-100 font-normal">
                         {emp?.designation}
                       </span>
@@ -91,14 +91,14 @@ export default function SingleProject({ params }) {
 
             <div className="flex justify-end p-2">
               <AddTask
-                projectId={projectData._id}
+                projectId={projectData?._id}
                 onAddTask={(task) => handleTaskAdded(task)}
                 projectMembers={projectData?.projectMembers}
               />
             </div>
           </div>
           <div>
-            <TaskList projectId={projectData._id} />
+            <TaskList projectId={projectData?._id} />
           </div>
         </>
       )}

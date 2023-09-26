@@ -97,7 +97,7 @@ const AddProject = () => {
   }, []);
 
   const handleEmployeeSelection = (selectedOptions) => {
-    setSelectedEmployees(selectedOptions.map((option) => option.value));
+    setSelectedEmployees(selectedOptions?.map((option) => option.value));
   };
 
   return (
@@ -118,7 +118,7 @@ const AddProject = () => {
             type="text"
             name="projectName"
             className="border rounded-md p-2 w-full"
-            value={projectData.projectName}
+            value={projectData?.projectName}
             onChange={handleChange}
           />
         </div>
@@ -135,7 +135,7 @@ const AddProject = () => {
               type="text"
               name="backend"
               className="border rounded-md p-2 w-full"
-              value={projectData.backend}
+              value={projectData?.backend}
               onChange={handleChange}
             />
           </div>
@@ -150,7 +150,7 @@ const AddProject = () => {
               type="text"
               name="frontend"
               className="border rounded-md p-2 w-full"
-              value={projectData.frontend}
+              value={projectData?.frontend}
               onChange={handleChange}
             />
           </div>
@@ -166,7 +166,7 @@ const AddProject = () => {
           <textarea
             name="projectDescription"
             className="border rounded-md p-2 w-full"
-            value={projectData.projectDescription}
+            value={projectData?.projectDescription}
             onChange={handleChange}
             rows={5}
           />
@@ -182,7 +182,7 @@ const AddProject = () => {
             </label>
             <DatePicker
               name="startDate"
-              selected={projectData.startDate}
+              selected={projectData?.startDate}
               onChange={handleStartDateChange}
               className="border rounded-md p-2 w-full"
               dateFormat="dd-MM-yyyy"
@@ -198,7 +198,7 @@ const AddProject = () => {
             </label>
             <DatePicker
               name="endDate"
-              selected={projectData.endDate}
+              selected={projectData?.endDate}
               onChange={handleEndDateChange}
               className="border rounded-md p-2 w-full"
               dateFormat="dd-MM-yyyy"
@@ -212,8 +212,8 @@ const AddProject = () => {
             isMulti
             name="projectMembers"
             options={allEmployees}
-            value={allEmployees.filter((employee) =>
-              selectedEmployees.includes(employee.value)
+            value={allEmployees?.filter((employee) =>
+              selectedEmployees?.includes(employee.value)
             )}
             onChange={handleEmployeeSelection}
           />

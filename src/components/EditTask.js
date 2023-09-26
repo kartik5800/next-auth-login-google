@@ -13,9 +13,9 @@ const EditTask = ({ id, taskData }) => {
   });
 
   const [updateTaskData, setUpdateTaskData] = useState({
-    taskName: taskData.taskName ?? "",
+    taskName: taskData?.taskName ?? "",
     assignedUser: selectedUser,
-    status: taskData.status ?? "",
+    status: taskData?.status ?? "",
   });
 
   const handleProjectMembersChange = (selectedOption) => {
@@ -87,7 +87,7 @@ const EditTask = ({ id, taskData }) => {
           <Flex direction="column" gap="3">
             <input
               type="text"
-              value={updateTaskData.taskName}
+              value={updateTaskData?.taskName}
               onChange={(e) =>
                 setUpdateTaskData({
                   ...updateTaskData,
@@ -105,7 +105,7 @@ const EditTask = ({ id, taskData }) => {
             />
 
             <select
-              value={updateTaskData.status}
+              value={updateTaskData?.status}
               onChange={(e) =>
                 setUpdateTaskData({
                   ...updateTaskData,

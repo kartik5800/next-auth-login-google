@@ -45,7 +45,9 @@ const Login = () => {
   if (session.status === "loading") {
     return (
       <div className="flex justify-center items-center w-screen h-screen">
-        Processing...
+        <div className="text-center mt-4">
+          <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-slate-600 mx-auto"></div>
+        </div>
       </div>
     );
   }
@@ -68,7 +70,7 @@ const Login = () => {
               name="email"
               placeholder="Email"
               className="border-2 p-3 border-gray-500 rounded-md"
-              value={formData.email}
+              value={formData?.email}
               onChange={handleChange}
             />
           </div>
@@ -79,7 +81,7 @@ const Login = () => {
               name="password"
               placeholder="password"
               className="border-2 p-3 rounded-md border-gray-500"
-              value={formData.password}
+              value={formData?.password}
               onChange={handleChange}
             />
             {/* <span

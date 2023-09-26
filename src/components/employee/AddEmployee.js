@@ -68,7 +68,7 @@ function AddEmployee({ projectId }) {
               type="text"
               name="name"
               placeholder="Employee name"
-              value={empData.name}
+              value={empData?.name}
               onChange={handleInputChange}
               className="border rounded p-2 mt-2 w-full"
             />
@@ -77,7 +77,7 @@ function AddEmployee({ projectId }) {
               type="text"
               name="email"
               placeholder="enter email"
-              value={empData.email}
+              value={empData?.email}
               onChange={handleInputChange}
               className="border rounded p-2 mt-2 w-full"
             />
@@ -86,7 +86,7 @@ function AddEmployee({ projectId }) {
               type="text"
               name="designation"
               placeholder="Designation"
-              value={empData.designation}
+              value={empData?.designation}
               onChange={handleInputChange}
               className="border rounded p-2 mt-2 w-full"
             />

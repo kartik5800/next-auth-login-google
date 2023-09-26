@@ -68,7 +68,7 @@ const Ragister = () => {
               name="username"
               placeholder="Username"
               className="border-2 p-3 rounded-md"
-              value={formData.username}
+              value={formData?.username}
               onChange={handleChange}
             />
           </div>
@@ -79,7 +79,7 @@ const Ragister = () => {
               name="email"
               placeholder="Email"
               className="border-2 p-3 rounded-md"
-              value={formData.email}
+              value={formData?.email}
               onChange={handleChange}
             />
           </div>
@@ -90,7 +90,7 @@ const Ragister = () => {
               name="phone"
               placeholder="Phone"
               className="border-2 p-3 rounded-md"
-              value={formData.phone}
+              value={formData?.phone}
               onChange={handleChange}
             />
           </div>
@@ -100,7 +100,7 @@ const Ragister = () => {
             name="password"
             placeholder="Password"
             className="border-2 p-3 rounded-md"
-            value={formData.password}
+            value={formData?.password}
             onChange={handleChange}
           />
 
@@ -110,7 +110,7 @@ const Ragister = () => {
               name="confirmPassword"
               placeholder="Confirm Password"
               className="border-2 p-3 rounded-md"
-              value={formData.confirmPassword}
+              value={formData?.confirmPassword}
               onChange={handleChange}
             />
             {errors.confirmPassword && (

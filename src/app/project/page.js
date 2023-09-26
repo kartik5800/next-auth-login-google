@@ -72,24 +72,24 @@ const ProjectList = () => {
                 </thead>
                 <tbody>
                   {projects?.map((project) => (
-                    <tr key={project._id} className="border border-slate-600">
+                    <tr key={project?._id} className="border border-slate-600">
                       <td className="border border-slate-600 px-4 py-2 font-bold hover:underline">
                         <Link href={`project/projectdetails/${project._id}`}>
-                          {project.projectName}
+                          {project.projectName ?? ""}
                         </Link>
                       </td>
                       <td className="border border-slate-600 px-4 py-2">
-                        {project.frontend}
+                        {project.frontend ?? ""}
                       </td>
                       <td className="border border-slate-600 px-4 py-2">
-                        {project.backend}
+                        {project.backend ?? ""}
                       </td>
                       <td className="border border-slate-600 px-3">
                         <div className="flex gap-2 ">
                           <button className=" bg-slate-300  rounded-md">
-                            <DeleteButton id={project._id} />
+                            <DeleteButton id={project?._id} />
                           </button>
-                          <Link href={`/project/${project._id}`}>
+                          <Link href={`/project/${project?._id}`}>
                             <button className="p-2 bg-slate-300 px-5 rounded-md">
                               <AiFillEdit className="cursor-pointer" />
                             </button>

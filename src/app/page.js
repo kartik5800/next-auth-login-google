@@ -9,7 +9,9 @@ export default function Home() {
   if (session?.status === "loading") {
     return (
       <div className="flex justify-center items-center w-screen h-screen">
-        Processing...
+        <div className="text-center mt-4">
+          <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-slate-600 mx-auto"></div>
+        </div>
       </div>
     );
   }

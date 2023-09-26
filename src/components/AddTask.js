@@ -67,14 +67,14 @@ function AddTask({ projectId, projectMembers }) {
               type="text"
               name="taskName"
               placeholder="Task name"
-              value={taskData.taskName}
+              value={taskData?.taskName}
               onChange={handleInputChange}
               className="border rounded p-2 mt-2 w-full"
             />
 
             <select
               name="assignedUser"
-              value={taskData.assignedUser}
+              value={taskData?.assignedUser}
               onChange={handleInputChange}
               className="border rounded p-2 mt-2 w-full"
             >
@@ -89,7 +89,7 @@ function AddTask({ projectId, projectMembers }) {
 
             <select
               name="status"
-              value={taskData.status}
+              value={taskData?.status}
               onChange={handleInputChange}
               className="border rounded p-2 mt-2 w-full"
             >

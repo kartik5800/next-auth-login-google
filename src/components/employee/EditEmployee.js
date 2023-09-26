@@ -6,9 +6,9 @@ import React, { useState } from "react";
 const EditEmployee = ({ Employee }) => {
   const router = useRouter();
   const [updateEmployeeData, setUpdateEmployeeData] = useState({
-    name: Employee.name ?? "",
-    email: Employee.email ?? "",
-    designation: Employee.designation ?? "",
+    name: Employee?.name ?? "",
+    email: Employee?.email ?? "",
+    designation: Employee?.designation ?? "",
   });
 
   const handleUpdateEmployee = async () => {
@@ -57,7 +57,7 @@ const EditEmployee = ({ Employee }) => {
             <input
               type="text"
               placeholder="Name"
-              value={updateEmployeeData.name}
+              value={updateEmployeeData?.name}
               onChange={(e) =>
                 setUpdateEmployeeData({
                   ...updateEmployeeData,
@@ -70,7 +70,7 @@ const EditEmployee = ({ Employee }) => {
             <input
               type="email"
               placeholder="Email"
-              value={updateEmployeeData.email}
+              value={updateEmployeeData?.email}
               onChange={(e) =>
                 setUpdateEmployeeData({
                   ...updateEmployeeData,
@@ -83,7 +83,7 @@ const EditEmployee = ({ Employee }) => {
             <input
               type="text"
               placeholder="Designation"
-              value={updateEmployeeData.designation}
+              value={updateEmployeeData?.designation}
               onChange={(e) =>
                 setUpdateEmployeeData({
                   ...updateEmployeeData,

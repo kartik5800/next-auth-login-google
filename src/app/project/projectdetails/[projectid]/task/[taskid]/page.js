@@ -6,9 +6,13 @@ async function getData(id) {
   let data = await fetch(`http://localhost:3000/api/task/${id}`, {
     cache: "no-store",
   });
-  let result = await data.json();
 
-  return result.task;
+  try {
+    let result = await data.json();
+    return result.task;
+  } catch (error) {
+    console.error("Error parsing JSON:", error);
+  }
 }
 
 async function TaskDetailPage({ params }) {
@@ -43,7 +47,7 @@ async function TaskDetailPage({ params }) {
             <p>|</p>
             <p>
               <span className=" font-bold">Assigned to:- </span>
-              {taskData?.assignedUser.name ?? ""}
+              {taskData?.assignedUser?.name ?? ""}
             </p>
           </div>
         </div>

@@ -6,13 +6,8 @@ async function getData() {
   const res = await fetch("http://localhost:3000/api/employee", {
     cache: "no-cache",
   });
-
-  // if (!res.ok) {
-  //   // throw new Error("Failed to fetch data");
-  //   return res.json({ error: "Failed to fetch data" });
-  // }
-
-  return res.json();
+  const text = await res.json();
+  return text;
 }
 
 const EmployeeList = async () => {
@@ -42,32 +37,39 @@ const EmployeeList = async () => {
               <th className="px-4 py-2  border border-slate-600">Action</th>
             </tr>
           </thead>
-          <tbody>
-            {employeeData?.map((emp, index) => {
-              return (
-                <tr key={index} className="border border-slate-600">
-                  <td className="border border-slate-600 px-4 py-2">
-                    {emp.name}
-                  </td>
-                  <td className="border border-slate-600 px-4 py-2">
-                    {emp.empCode}
-                  </td>
-                  <td className="border border-slate-600 px-4 py-2">
-                    {emp.email}
-                  </td>
-                  <td className="border border-slate-600 px-4 py-2">
-                    {emp.designation}
-                  </td>
-                  <td className="border border-slate-600 px-4 py-2">
-                    <div className="flex gap-4">
-                      <EditEmployee Employee={emp} />
-                      <DeleteEmployee ID={emp?._id} />
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
+
+          {employeeData ? (
+            <tbody>
+              {employeeData?.map((emp, index) => {
+                return (
+                  <tr key={index} className="border border-slate-600">
+                    <td className="border border-slate-600 px-4 py-2">
+                      {emp?.name ?? ""}
+                    </td>
+                    <td className="border border-slate-600 px-4 py-2">
+                      {emp?.empCode ?? ""}
+                    </td>
+                    <td className="border border-slate-600 px-4 py-2">
+                      {emp?.email ?? ""}
+                    </td>
+                    <td className="border border-slate-600 px-4 py-2">
+                      {emp?.designation ?? ""}
+                    </td>
+                    <td className="border border-slate-600 px-4 py-2">
+                      <div className="flex gap-4">
+                        <EditEmployee Employee={emp} />
+                        <DeleteEmployee ID={emp?._id} />
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          ) : (
+            <div className="text-center mt-4">
+              <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-slate-600 mx-auto"></div>
+            </div>
+          )}
         </table>
       </div>
     </div>
