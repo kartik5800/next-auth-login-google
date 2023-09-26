@@ -36,7 +36,7 @@ const Login = () => {
       callbackUrl: "/",
     });
     if (result.ok) {
-      router.push(result.url);
+      router.push(result?.url);
     } else {
       alert(result.error);
     }

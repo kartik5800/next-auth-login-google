@@ -20,16 +20,15 @@ const Navbar = () => {
         <Link href={"/"}>
           <h1 className="text-2xl text-white font-semibold">My App</h1>
         </Link>
+        {session ? (
+          <ul className="flex space-x-4 items-center text-white">
+            <li>
+              <Link href="/">Projects</Link>
+            </li>
+            <li>
+              <Link href={"/employees"}>Employee</Link>
+            </li>
 
-        <ul className="flex space-x-4 items-center text-white">
-          <li>
-            <Link href="/">Projects</Link>
-          </li>
-          <li>
-            <Link href={"/employees"}>Employee</Link>
-          </li>
-
-          {session ? (
             <li className="relative group">
               <button
                 className="p-1 focus:outline-none"
@@ -58,10 +57,10 @@ const Navbar = () => {
                 </div>
               )}
             </li>
-          ) : (
-            ""
-          )}
-        </ul>
+          </ul>
+        ) : (
+          ""
+        )}
       </div>
     </nav>
   );

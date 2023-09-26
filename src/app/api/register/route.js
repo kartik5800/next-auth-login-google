@@ -1,6 +1,6 @@
 import { connectionStr } from "@/lib/db";
 import { RagisterData } from "@/lib/model/register";
-// import bcrypt from "bcryptjs";
+import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 
@@ -11,15 +11,15 @@ export async function POST(request) {
 
     await mongoose.connect(connectionStr);
 
-    // const salt = bcrypt.genSaltSync(12);
-    // const hashedpassword = bcrypt.hashSync(password, salt);
+    const salt = bcrypt.genSaltSync(12);
+    const hashedpassword = bcrypt.hashSync(password, salt);
 
     const user = new RagisterData({
       username,
       email,
       phone,
-      password,
-      // password: hashedpassword,
+      // password,
+      password: hashedpassword,
     });
 
     const result = await user.save();

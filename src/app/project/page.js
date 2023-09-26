@@ -86,9 +86,8 @@ const ProjectList = () => {
                       </td>
                       <td className="border border-slate-600 px-3">
                         <div className="flex gap-2 ">
-                          <button className=" bg-slate-300  rounded-md">
-                            <DeleteButton id={project?._id} />
-                          </button>
+                          <DeleteButton id={project?._id} />
+
                           <Link href={`/project/${project?._id}`}>
                             <button className="p-2 bg-slate-300 px-5 rounded-md">
                               <AiFillEdit className="cursor-pointer" />
